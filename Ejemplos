@@ -11,11 +11,31 @@ sorted(rdd.map(lambda x: (x, 1)).collect())
 
 [('a', 1), ('b', 1), ('c', 1)]
 
+# Creamos un RDD con una lista de números
+rdd = ejemplo.parallelize([1, 2, 3, 4, 5])
+
+# Usamos map para elevar cada número al cuadrado
+resultado = rdd.map(lambda x: x ** 2).collect()
+
+print(resultado)
+
+[1, 4, 9, 16, 25]
+
 #filter
 rdd = ejemplo.parallelize([1, 2, 3, 4, 5])
 rdd.filter(lambda x: x % 2 == 0).collect()
 
 [2, 4]
+
+# Creamos un RDD con una lista de números
+rdd = ejemplo.parallelize([10, 15, 20, 25, 30, 35])
+
+# Usamos filter para quedarnos solo con los números mayores a 20
+resultado = rdd.filter(lambda x: x > 20).collect()
+
+print(resultado)
+
+[25, 30, 35]
 
 #flatMap
 rdd = ejemplo.parallelize([2, 3, 4])
@@ -39,6 +59,17 @@ rdd.union(rdd).collect()
 
 [1, 1, 2, 3, 1, 1, 2, 3]
 
+# Creamos dos RDDs con listas de números
+rdd1 = ejemplo.parallelize([1, 2, 3])
+rdd2 = ejemplo.parallelize([4, 5, 6])
+
+# Usamos union para combinar los dos RDDs
+resultado = rdd1.union(rdd2).collect()
+
+print(resultado)
+
+[1, 2, 3, 4, 5, 6]
+
 #intersection
 rdd1 = ejemplo.parallelize([1, 10, 2, 3, 4, 5])
 rdd2 = ejemplo.parallelize([1, 6, 2, 3, 7, 8])
@@ -46,10 +77,31 @@ rdd1.intersection(rdd2).collect()
 
 [1, 2, 3]
 
+# Creamos dos RDDs con algunos números en común
+rdd1 = ejemplo.parallelize([1, 2, 3, 4])
+rdd2 = ejemplo.parallelize([3, 4, 5, 6])
+
+# Usamos intersection para obtener los elementos comunes entre los dos RDDs
+resultado = rdd1.intersection(rdd2).collect()
+
+print(resultado)
+
+[4, 3]
+
 #distinct
 sorted(ejemplo.parallelize([1, 1, 2, 3]).distinct().collect())
 
 [1, 2, 3]
+
+# Creamos un RDD con algunos números repetidos
+rdd = ejemplo.parallelize([1, 2, 2, 3, 4, 4, 5])
+
+# Usamos distinct para eliminar los elementos duplicados
+resultado = rdd.distinct().collect()
+
+print(resultado)
+
+[1, 2, 3, 4, 5]
 
 #groupByKey
 rdd = ejemplo.parallelize([("a", 1), ("b", 1), ("a", 1)])
@@ -61,3 +113,12 @@ sorted(rdd.groupByKey().mapValues(list).collect())
 
 [('a', [1, 1]), ('b', [1])]
 
+# Creamos un RDD de pares clave-valor
+rdd = ejemplo.parallelize([("a", 1), ("b", 2), ("a", 3), ("b", 4), ("c", 5)])
+
+# Usamos groupByKey para agrupar los valores por cada clave
+resultado = rdd.groupByKey().mapValues(list).collect()
+
+print(resultado)
+
+[('b', [2, 4]), ('c', [5]), ('a', [1, 3])]
